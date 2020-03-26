@@ -1,4 +1,4 @@
-package com.speter97.weatherforecast
+package com.speter97.weatherforecast.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -10,8 +10,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.provider.Settings.Global.putString
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,16 +17,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.*
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.speter97.weatherforecast.ui.today.TodayFragment
-import java.util.*
+import com.speter97.weatherforecast.R
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mDb: AppDatabase
 
     // region locationData
     val PERMISSION_ID = 42
@@ -42,8 +37,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mDb = AppDatabase.getInstance(applicationContext)
-
 
         //region navigation
         setContentView(R.layout.activity_main)
@@ -52,7 +45,10 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_today, R.id.navigation_forecast, R.id.navigation_location))
+            R.id.navigation_today,
+            R.id.navigation_forecast,
+            R.id.navigation_location
+        ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         //endregion navigation
@@ -114,7 +110,6 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         lat = location.latitude
                         lon = location.longitude
-                        mDb.locationDao().setLocation(LocationString(0,"$lat,$lon"))
                     }
                 }
             } else {
@@ -146,7 +141,6 @@ class MainActivity : AppCompatActivity() {
             var mLastLocation: Location = locationResult.lastLocation
             lat = mLastLocation.latitude
             lon = mLastLocation.longitude
-            mDb.locationDao().setLocation(LocationString(0,"$lat,$lon"))
         }
     }
 
