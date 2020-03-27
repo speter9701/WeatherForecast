@@ -4,11 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.speter97.weatherforecast.data.repository.CurrentRepository
+import com.speter97.weatherforecast.internal.lazyDeferred
 
-class TodayViewModel(application: Application) : AndroidViewModel(application) {
+class TodayViewModel(private val currentRepository: CurrentRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is today Fragment"
-    }
-    val textToDisplay: LiveData<String> = _text
+
+    val weather by lazyDeferred { currentRepository.getCurrentWeather() }
+
 }

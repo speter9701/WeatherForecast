@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.speter97.weatherforecast.R
-import com.speter97.weatherforecast.data.WeatherApiService
+import com.speter97.weatherforecast.data.network.ConnectivityInterceptorImpl
+import com.speter97.weatherforecast.data.network.WeatherApiService
+import com.speter97.weatherforecast.data.network.WeatherNetworkDataSourceImpl
 import kotlinx.android.synthetic.main.fragment_today.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -30,14 +31,18 @@ class TodayFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel =
-            ViewModelProviders.of(this).get(TodayViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(TodayViewModel::class.java)
 
-        val apiService = WeatherApiService()
+
+        val apiService = WeatherApiService(ConnectivityInterceptorImpl(this.context!!))
+        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
+
+        weatherNetworkDataSource.downloadedCurrentWeather.observe(this, Observer {
+            text_today.text = it.toString()
+        })
 
         GlobalScope.launch(Dispatchers.Main) {
-            val currentWeatherData = apiService.getCurrentWeatherData("London")
-            text_today.text = currentWeatherData.toString()
+            weatherNetworkDataSource.fetchCurrentWeather("London")
         }
     }
 

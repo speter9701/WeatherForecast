@@ -1,7 +1,6 @@
-package com.speter97.weatherforecast.data
+package com.speter97.weatherforecast.data.network
 
-import com.speter97.weatherforecast.data.response.CurrentWeatherData
-import kotlinx.coroutines.Deferred
+import com.speter97.weatherforecast.data.network.response.todayEntity.CurrentWeatherData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -18,14 +17,18 @@ interface WeatherApiService {
     @GET("weather")
     suspend fun getCurrentWeatherData(
         @Query("q") location: String
-    ):CurrentWeatherData
+    ): CurrentWeatherData
 
     companion object {
-        operator fun invoke(): WeatherApiService {
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): WeatherApiService {
             val requestInterceptor = Interceptor { chain ->
                 val url = chain.request()
                     .url().newBuilder()
-                    .addQueryParameter("appid", API_KEY)
+                    .addQueryParameter("appid",
+                        API_KEY
+                    )
                     .build()
                 val request = chain.request()
                     .newBuilder()
@@ -35,6 +38,7 @@ interface WeatherApiService {
             }
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
             return Retrofit.Builder()
                 .client(okHttpClient)
