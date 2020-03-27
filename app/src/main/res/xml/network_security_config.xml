@@ -6,3 +6,5 @@
         </trust-anchors>
     </base-config>
 </network-security-config>
+
+<!-- Stackoverflow: https://stackoverflow.com/questions/51990158/android-p-networksecuritypolicy-iscleartexttrafficpermitted-false-when-network -->

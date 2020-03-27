@@ -58,12 +58,6 @@ class MainActivity : AppCompatActivity() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
         // endregion location
-
-
-
-
-
-
     }
 
     // region LOCATION
@@ -149,3 +143,4 @@ class MainActivity : AppCompatActivity() {
 
 }
 
+// Location: https://www.androdocs.com/kotlin/getting-current-location-latitude-longitude-in-android-using-kotlin.html

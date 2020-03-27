@@ -11,3 +11,5 @@ fun <T> lazyDeferred(block: suspend CoroutineScope.() -> T): Lazy<Deferred<T>> {
         }
     }
 }
+
+// https://medium.com/@sampsonjoliver/lazy-evaluated-coroutines-in-kotlin-bf5be004233

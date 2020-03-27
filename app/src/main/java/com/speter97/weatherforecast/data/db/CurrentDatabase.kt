@@ -29,3 +29,5 @@ abstract class CurrentDatabase : RoomDatabase() {
                 "current.db").build()
     }
 }
+
+// Stackoverflow: https://stackoverflow.com/questions/40398072/singleton-with-parameter-in-kotlin

@@ -21,7 +21,7 @@ interface WeatherApiService {
 
     companion object {
         operator fun invoke(
-            connectivityInterceptor: ConnectivityInterceptor
+            ConnectivityInterceptor: ConnectivityInterceptor
         ): WeatherApiService {
             val requestInterceptor = Interceptor { chain ->
                 val url = chain.request()
@@ -38,7 +38,7 @@ interface WeatherApiService {
             }
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
-                .addInterceptor(connectivityInterceptor)
+                .addInterceptor(ConnectivityInterceptor)
                 .build()
             return Retrofit.Builder()
                 .client(okHttpClient)
@@ -49,3 +49,6 @@ interface WeatherApiService {
         }
     }
 }
+
+
+// Stackoverflow: https://stackoverflow.com/questions/48484994/how-to-handle-retrofit-response-kotlin-in-android/50491963

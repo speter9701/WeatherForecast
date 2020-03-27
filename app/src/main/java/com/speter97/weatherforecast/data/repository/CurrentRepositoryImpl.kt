@@ -8,14 +8,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZonedDateTime
 
 class CurrentRepositoryImpl(
     private val currentWeatherDataDao: CurrentWeatherDataDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource
 ) : CurrentRepository {
-    // IF Fethced -> persist!
     init {
         weatherNetworkDataSource.downloadedCurrentWeather.observeForever { newCurrentWeather ->
             persistFetchedCurrentWeather(newCurrentWeather)
@@ -46,7 +44,9 @@ class CurrentRepositoryImpl(
     }
 
     private fun isFetchedCurrentNeeded(lastFetchTime: ZonedDateTime) : Boolean {
-        val thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30)
-        return lastFetchTime.isBefore(thirtyMinutesAgo)
+        val tenMinutesAgo = ZonedDateTime.now().minusMinutes(10)
+        return lastFetchTime.isBefore(tenMinutesAgo)
     }
 }
+
+// TIMED FETCH
