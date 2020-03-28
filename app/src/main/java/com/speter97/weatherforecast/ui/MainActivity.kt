@@ -10,6 +10,8 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -37,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         //region navigation
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // region LOCATION
-    fun isLocationEnabled(): Boolean {
+    private fun isLocationEnabled(): Boolean {
         var locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
@@ -88,6 +89,9 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == PERMISSION_ID) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 getLastLocation()
+            } else {
+                Log.d("error","Location permission is needed!")
+                requestPermissions()
             }
         }
     }
@@ -142,5 +146,3 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-
-// Location: https://www.androdocs.com/kotlin/getting-current-location-latitude-longitude-in-android-using-kotlin.html

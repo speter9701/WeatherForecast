@@ -1,9 +1,13 @@
 package com.speter97.weatherforecast
 
+import android.app.ActionBar
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.speter97.weatherforecast.data.db.CurrentDatabase
-import com.speter97.weatherforecast.data.network.*
+import com.speter97.weatherforecast.data.network.ConnectivityInterceptor
+import com.speter97.weatherforecast.data.network.WeatherApiService
+import com.speter97.weatherforecast.data.network.WeatherNetworkDataSource
+import com.speter97.weatherforecast.data.network.WeatherNetworkDataSourceImpl
 import com.speter97.weatherforecast.data.repository.CurrentRepository
 import com.speter97.weatherforecast.data.repository.CurrentRepositoryImpl
 import com.speter97.weatherforecast.ui.today.CurrentWeatherViewModelFactory
@@ -14,6 +18,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+
 
 class ForecastApplication : Application(), KodeinAware {
     override val kodein = Kodein.lazy {

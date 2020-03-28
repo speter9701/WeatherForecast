@@ -3,7 +3,10 @@ package com.speter97.weatherforecast.data.network.response.todayEntity
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 
 const val CURRENT_WEATHER_ID = 0
 
@@ -32,3 +35,58 @@ data class CurrentWeatherData(
     var id_2: Int =
         CURRENT_WEATHER_ID
 }
+
+data class Main(
+    @SerializedName("feels_like")
+    val feelsLike: Double,
+    val humidity: Int,
+    val pressure: Int,
+    val temp: Double,
+    @SerializedName("temp_max")
+    val tempMax: Double,
+    @SerializedName("temp_min")
+    val tempMin: Double
+)
+
+data class Sys(
+    val country: String,
+    val sunrise: Int,
+    val sunset: Int
+)
+
+data class Weather(
+    val description: String,
+    val icon: String,
+    val id: Int,
+    val main: String
+)
+
+data class Wind(
+    val deg: Int,
+    val speed: Double
+)
+
+data class Clouds(
+    val all: Int
+)
+
+class Converters {
+
+    val gson = Gson()
+
+    @TypeConverter
+    fun arrayListToJson(list: List<Weather>?): String? {
+        return if(list == null) null else gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun jsonToArrayList(jsonData: String?): List<Weather>? {
+        return if (jsonData == null) null else gson.fromJson(jsonData, object : TypeToken<List<Weather>?>() {}.type)
+    }
+
+}
+
+data class Coord(
+    val lat: Double,
+    val lon: Double
+)

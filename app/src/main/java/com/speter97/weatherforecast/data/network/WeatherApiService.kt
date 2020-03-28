@@ -29,6 +29,7 @@ interface WeatherApiService {
                     .addQueryParameter("appid",
                         API_KEY
                     )
+                    .addQueryParameter("units","metric")
                     .build()
                 val request = chain.request()
                     .newBuilder()

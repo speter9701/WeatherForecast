@@ -13,6 +13,7 @@ import org.threeten.bp.ZonedDateTime
 class CurrentRepositoryImpl(
     private val currentWeatherDataDao: CurrentWeatherDataDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource
+    // private val locationProvider: LocationProvider
 ) : CurrentRepository {
     init {
         weatherNetworkDataSource.downloadedCurrentWeather.observeForever { newCurrentWeather ->
@@ -40,13 +41,14 @@ class CurrentRepositoryImpl(
     }
 
     private suspend fun  fetchCurrentWeather() {
-        weatherNetworkDataSource.fetchCurrentWeather("Los Angeles")
+        weatherNetworkDataSource.fetchCurrentWeather("Los Angeles") // locationProvider.getLocation()
     }
 
     private fun isFetchedCurrentNeeded(lastFetchTime: ZonedDateTime) : Boolean {
         val tenMinutesAgo = ZonedDateTime.now().minusMinutes(10)
         return lastFetchTime.isBefore(tenMinutesAgo)
     }
+
 }
 
 // TIMED FETCH
