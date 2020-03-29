@@ -10,14 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.speter97.weatherforecast.R
-import com.speter97.weatherforecast.internal.ScopedFragment
+import com.speter97.weatherforecast.coroutineHelpers.ScopedFragment
 import kotlinx.android.synthetic.main.fragment_today.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.threeten.bp.Instant
-
 
 // viewmodelfactory aware
 class TodayFragment() : ScopedFragment(), KodeinAware {

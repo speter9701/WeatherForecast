@@ -1,24 +1,14 @@
 package com.speter97.weatherforecast.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.location.*
@@ -28,7 +18,6 @@ import com.speter97.weatherforecast.ui.today.LifecycleBoundLocationManager
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
-
 
 private const val MY_PERMISSION_ACCESS_COARSE_LOCATION = 1
 
@@ -52,14 +41,11 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_today,
-            R.id.navigation_forecast,
-            R.id.navigation_location
+            R.id.navigation_forecast
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         //endregion navigation
-
-
 
         requestLocationPermission()
         if (hasLocationPermission()) {
@@ -68,8 +54,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         else
             requestLocationPermission()
     }
-
-
 
     private fun bindLocationManager() {
         LifecycleBoundLocationManager(
@@ -104,7 +88,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                 Toast.makeText(this, "Please, grant access for location!", Toast.LENGTH_LONG).show()
         }
     }
-
 }
 
 // Location: https://www.androdocs.com/kotlin/getting-current-location-latitude-longitude-in-android-using-kotlin.html

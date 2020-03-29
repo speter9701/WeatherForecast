@@ -1,7 +1,7 @@
 package com.speter97.weatherforecast.data.network
 
-import com.speter97.weatherforecast.data.network.response.CurrentWeatherData
-import com.speter97.weatherforecast.data.network.response.FutureWeatherData
+import com.speter97.weatherforecast.data.db.data.CurrentWeatherData
+import com.speter97.weatherforecast.data.db.data.FutureWeatherData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -58,6 +58,5 @@ interface WeatherApiService {
         }
     }
 }
-
 
 // Stackoverflow: https://stackoverflow.com/questions/48484994/how-to-handle-retrofit-response-kotlin-in-android/50491963

@@ -3,8 +3,8 @@ package com.speter97.weatherforecast.data.network
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.speter97.weatherforecast.data.network.response.CurrentWeatherData
-import com.speter97.weatherforecast.data.network.response.FutureWeatherData
+import com.speter97.weatherforecast.data.db.data.CurrentWeatherData
+import com.speter97.weatherforecast.data.db.data.FutureWeatherData
 import java.io.IOException
 
 interface WeatherNetworkDataSource {
@@ -33,13 +33,11 @@ class WeatherNetworkDataSourceImpl(private val weatherApiService: WeatherApiServ
         var latlng = location.split(',')
         try {
             val fetchedCurrentWeather = weatherApiService.getCurrentWeatherData(latlng[0],latlng[1])
-
             _downloadedCurrentWeather.postValue(fetchedCurrentWeather)
         } catch (e: IOException) {
             Log.e("Connectivity", "No Internet Connection!")
         }
     }
-
 
     override suspend fun fetchFutureWeather(location: String) {
         var latlng = location.split(',')

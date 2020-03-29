@@ -24,7 +24,6 @@ class LifecycleBoundLocationManager(
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
-
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun startLocationUpdates() {
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
@@ -35,3 +34,5 @@ class LifecycleBoundLocationManager(
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 }
+
+// https://github.com/googlecodelabs/android-lifecycles/blob/master/app/src/main/java/com/example/android/lifecycles/step4_solution/BoundLocationManager.java
