@@ -1,13 +1,9 @@
 package com.speter97.weatherforecast.ui.forecast
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.speter97.weatherforecast.data.repository.CurrentRepository
+import com.speter97.weatherforecast.internal.lazyDeferred
 
-class ForecastViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is forecast Fragment"
-    }
-    val text: LiveData<String> = _text
+class ForecastViewModel(private val currentRepository: CurrentRepository) : ViewModel() {
+    val weatherItems by lazyDeferred { currentRepository.getFutureWeatherList() }
 }

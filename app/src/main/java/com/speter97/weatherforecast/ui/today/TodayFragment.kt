@@ -2,7 +2,6 @@ package com.speter97.weatherforecast.ui.today
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +10,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.speter97.weatherforecast.R
+import com.speter97.weatherforecast.internal.ScopedFragment
 import kotlinx.android.synthetic.main.fragment_today.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.threeten.bp.Instant
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
-import java.lang.String.format
-import java.time.LocalDate
 
 
 // viewmodelfactory aware
-class TodayFragment : ScopedFragment(), KodeinAware {
+class TodayFragment() : ScopedFragment(), KodeinAware {
 
     // viewmodelfactory
     override val kodein by closestKodein()
@@ -44,7 +40,6 @@ class TodayFragment : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // viewmodelfactory
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TodayViewModel::class.java)
 
         bindUI()
@@ -52,7 +47,7 @@ class TodayFragment : ScopedFragment(), KodeinAware {
 
     private fun bindUI()  = launch {
         val currentWeather = viewModel.weather.await()
-        currentWeather.observe(this@TodayFragment, Observer {
+        currentWeather.observe(viewLifecycleOwner, Observer {
             if (it == null) return@Observer
 
             val arrayOfColors = context?.resources?.getIntArray(R.array.sunny);

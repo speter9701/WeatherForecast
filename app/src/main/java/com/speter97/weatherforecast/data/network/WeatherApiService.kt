@@ -1,6 +1,7 @@
 package com.speter97.weatherforecast.data.network
 
-import com.speter97.weatherforecast.data.network.response.todayEntity.CurrentWeatherData
+import com.speter97.weatherforecast.data.network.response.CurrentWeatherData
+import com.speter97.weatherforecast.data.network.response.FutureWeatherData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -9,7 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 const val API_KEY = "6054790cbe92dc1b1ddbd86613440ca6"
-// api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}
+// api.openweathermap.org/data/2.5/forecast?lat=35&lon=139
 // api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={your api key}
 
 interface WeatherApiService {
@@ -19,6 +20,12 @@ interface WeatherApiService {
         @Query("lat") Lat: String,
         @Query("lon") lon: String
     ): CurrentWeatherData
+
+    @GET("forecast")
+    suspend fun getFutureWeatherData(
+        @Query("lat") Lat: String,
+        @Query("lon") lon: String
+    ): FutureWeatherData
 
     companion object {
         operator fun invoke(

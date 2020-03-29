@@ -7,65 +7,84 @@ import android.location.Location
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.speter97.weatherforecast.data.db.CurrentWeatherDataDao
+import com.speter97.weatherforecast.data.db.CurrentDatabaseDao
+import com.speter97.weatherforecast.data.db.FutureDatabaseDao
 import com.speter97.weatherforecast.data.network.WeatherNetworkDataSource
-import com.speter97.weatherforecast.data.network.response.todayEntity.CurrentWeatherData
+import com.speter97.weatherforecast.data.network.response.CurrentWeatherData
+import com.speter97.weatherforecast.data.network.response.FutureWeatherData
+import com.speter97.weatherforecast.data.network.response.FutureWeatherItem
 import com.speter97.weatherforecast.internal.asDeferred
 import kotlinx.coroutines.*
 import org.threeten.bp.Instant
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
 import java.io.IOException
 
 
 class CurrentRepositoryImpl(
-    private val currentWeatherDataDao: CurrentWeatherDataDao,
+    private val currentDatabaseDao: CurrentDatabaseDao,
+    private val futureDatabaseDao: FutureDatabaseDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource,
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     context: Context
 ) : CurrentRepository {
+    private val appContext = context.applicationContext
+
     init {
-        weatherNetworkDataSource.downloadedCurrentWeather.observeForever { newCurrentWeather ->
-            persistFetchedCurrentWeather(newCurrentWeather)
+        weatherNetworkDataSource.apply {
+            downloadedCurrentWeather.observeForever { newCurrentWeather -> persistFetchedCurrentWeather(newCurrentWeather)}
+            downloadedFutureWeather.observeForever { newFutureWeather -> persistFetchedFutureWeather(newFutureWeather)}
         }
     }
-
-    private val appContext = context.applicationContext
 
     override suspend fun getCurrentWeather(): LiveData<CurrentWeatherData> {
         // ALWAYS RETURNS SOMETHING, while launch does not
         return withContext(Dispatchers.IO) {
             initWeatherData()
-            return@withContext currentWeatherDataDao.getCurrentWeather()
+            return@withContext currentDatabaseDao.getCurrentWeather()
+        }
+    }
+
+    override suspend fun getFutureWeatherList(): LiveData<List<FutureWeatherItem>> {
+        return withContext(Dispatchers.IO) {
+            initWeatherData()
+            return@withContext futureDatabaseDao.getFutureWeather()
         }
     }
 
     // TODO: WTF
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherData) {
         GlobalScope.launch(Dispatchers.IO) {
-            currentWeatherDataDao.upsert(fetchedWeather)
+            currentDatabaseDao.upsert(fetchedWeather)
+        }
+    }
+    private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherData) {
+        futureDatabaseDao.deleteOld()
+        GlobalScope.launch(Dispatchers.IO) {
+            futureDatabaseDao.deleteOld()
+            val futureWeatherList = fetchedWeather.list
+            futureDatabaseDao.insert(futureWeatherList)
         }
     }
 
     private suspend fun initWeatherData() {
-        var dateOfLast = currentWeatherDataDao.getCurrentWeatherNonLive()
+        var dateOfLast = currentDatabaseDao.getCurrentWeatherNonLive()
         if (dateOfLast == null) {
-            fetchCurrentWeather()
+            fetchAllWeather()
         } else {
             val i = Instant.ofEpochSecond(dateOfLast.dt.toLong())
-            if (isFetchedCurrentNeeded(i)) {
-                fetchCurrentWeather()
+            if (isFetchNeeded(i)) {
+                fetchAllWeather()
             }
         }
     }
 
-    private suspend fun fetchCurrentWeather() {
-        weatherNetworkDataSource.fetchCurrentWeather(getLocationString())
+    private suspend fun fetchAllWeather() {
+        val location = getLocationString()
+        weatherNetworkDataSource.fetchCurrentWeather(location)
+        weatherNetworkDataSource.fetchFutureWeather(location)
     }
 
     private suspend fun getLocationString() : String {
         try {
-
             val deviceLocation = getLastDeviceLocation().await()
                 ?: return "35,120"
             return "${deviceLocation.latitude},${deviceLocation.longitude}"
@@ -73,7 +92,6 @@ class CurrentRepositoryImpl(
             return "35,120"
         }
     }
-
     private fun getLastDeviceLocation(): Deferred<Location?> {
         if (hasLocationPermission())
            return fusedLocationProviderClient.lastLocation.asDeferred()
@@ -85,8 +103,7 @@ class CurrentRepositoryImpl(
             Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(appContext,
             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
-
-    private fun isFetchedCurrentNeeded(lastFetchTime: Instant) : Boolean {
+    private fun isFetchNeeded(lastFetchTime: Instant) : Boolean {
         val i = Instant.now()
         val tenSecondsAgo = i.minusSeconds(10)
         return lastFetchTime.isBefore(tenSecondsAgo)
