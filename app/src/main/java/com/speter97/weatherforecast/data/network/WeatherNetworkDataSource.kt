@@ -33,6 +33,7 @@ class WeatherNetworkDataSourceImpl(private val weatherApiService: WeatherApiServ
         var latlng = location.split(',')
         try {
             val fetchedCurrentWeather = weatherApiService.getCurrentWeatherData(latlng[0],latlng[1])
+
             _downloadedCurrentWeather.postValue(fetchedCurrentWeather)
         } catch (e: IOException) {
             Log.e("Connectivity", "No Internet Connection!")

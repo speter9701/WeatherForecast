@@ -105,7 +105,7 @@ class CurrentRepositoryImpl(
     }
     private fun isFetchNeeded(lastFetchTime: Instant) : Boolean {
         val i = Instant.now()
-        val tenSecondsAgo = i.minusSeconds(10)
+        val tenSecondsAgo = i.minusSeconds(20)
         return lastFetchTime.isBefore(tenSecondsAgo)
     }
 

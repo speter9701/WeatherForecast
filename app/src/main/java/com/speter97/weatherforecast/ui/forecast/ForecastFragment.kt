@@ -52,7 +52,17 @@ class ForecastFragment() : ScopedFragment(), KodeinAware {
             val manager = LinearLayoutManager(activity)
             recyclerViewParent.layoutManager = manager
             recyclerViewParent.setHasFixedSize(true)
-            val myAdapter = MyAdapter(weatherEntries.toMutableList())
+
+            var toReturn: List<FutureWeatherItem> = emptyList()
+            var i = 0
+
+            weatherEntries.forEach {
+                if (i % 8 == 0) {
+                    toReturn += it
+                }
+                i++
+            }
+            val myAdapter = MyAdapter(toReturn.toMutableList())
             recyclerViewParent.adapter = myAdapter
         })
     }

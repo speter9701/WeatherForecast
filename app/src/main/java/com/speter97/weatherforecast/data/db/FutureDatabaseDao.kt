@@ -15,6 +15,7 @@ interface FutureDatabaseDao {
     @Query( "select * from future_weather order by dt asc")
     fun getFutureWeather(): LiveData<List<FutureWeatherItem>>
 
+
     @Query("delete from future_weather where dt > 0")
     fun deleteOld()
 }
