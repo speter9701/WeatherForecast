@@ -16,7 +16,8 @@ interface WeatherApiService {
 
     @GET("weather")
     suspend fun getCurrentWeatherData(
-        @Query("q") location: String
+        @Query("lat") Lat: String,
+        @Query("lon") lon: String
     ): CurrentWeatherData
 
     companion object {

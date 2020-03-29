@@ -18,7 +18,6 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import java.lang.String.format
 import java.time.LocalDate
-import java.time.ZoneId
 
 
 // viewmodelfactory aware

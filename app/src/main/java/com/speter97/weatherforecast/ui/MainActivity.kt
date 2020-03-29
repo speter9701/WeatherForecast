@@ -11,30 +11,37 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
-import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.speter97.weatherforecast.R
+import com.speter97.weatherforecast.ui.today.LifecycleBoundLocationManager
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
 
-class MainActivity : AppCompatActivity() {
+private const val MY_PERMISSION_ACCESS_COARSE_LOCATION = 1
 
+class MainActivity : AppCompatActivity(), KodeinAware {
 
-    // region locationData
-    val PERMISSION_ID = 42
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
-    var lat: Double = 0.0
-    var lon: Double = 0.0
+    override val kodein by closestKodein()
+    private val fusedLocationProviderClient: FusedLocationProviderClient by instance()
 
-    // endregion locationData
-
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(p0: LocationResult?) {
+            super.onLocationResult(p0)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_today,
             R.id.navigation_forecast,
@@ -55,94 +60,52 @@ class MainActivity : AppCompatActivity() {
         //endregion navigation
 
 
-        // region location
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        getLastLocation()
-        // endregion location
+
+        requestLocationPermission()
+        if (hasLocationPermission()) {
+            bindLocationManager()
+        }
+        else
+            requestLocationPermission()
     }
 
-    // region LOCATION
-    private fun isLocationEnabled(): Boolean {
-        var locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
+
+
+    private fun bindLocationManager() {
+        LifecycleBoundLocationManager(
+            this,
+            fusedLocationProviderClient, locationCallback
         )
     }
 
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            return true
-        }
-        return false
-    }
-
-    private fun requestPermissions() {
+    private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
-            PERMISSION_ID
+            MY_PERMISSION_ACCESS_COARSE_LOCATION
         )
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == PERMISSION_ID) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLastLocation()
-            } else {
-                Log.d("error","Location permission is needed!")
-                requestPermissions()
-            }
+    private fun hasLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == MY_PERMISSION_ACCESS_COARSE_LOCATION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                bindLocationManager()
+            else
+                Toast.makeText(this, "Please, grant access for location!", Toast.LENGTH_LONG).show()
         }
     }
-
-    @SuppressLint("MissingPermission")
-    private fun getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-
-                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                    var location: Location? = task.result
-                    if (location == null) {
-                        requestNewLocationData()
-                    } else {
-                        lat = location.latitude
-                        lon = location.longitude
-                    }
-                }
-            } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
-            }
-        } else {
-            requestPermissions()
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun requestNewLocationData() {
-        var mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_LOW_POWER
-        mLocationRequest.interval = 3600000 // 1 hours
-        mLocationRequest.fastestInterval = 3600000 // 1 hours
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
-    }
-
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            var mLastLocation: Location = locationResult.lastLocation
-            lat = mLastLocation.latitude
-            lon = mLastLocation.longitude
-        }
-    }
-
-    // endregion LOCATION
-
 
 }
+
+// Location: https://www.androdocs.com/kotlin/getting-current-location-latitude-longitude-in-android-using-kotlin.html
+// https://stackoverflow.com/questions/41668943/permission-for-location-is-granted-while-debugging-however-not-granted-on-androi
