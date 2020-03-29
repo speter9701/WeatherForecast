@@ -132,6 +132,7 @@
         android:fontFamily="sans-serif-light"
         android:textColor="@color/white"
         android:textSize="50sp"
+        android:gravity="bottom"
         app:layout_constraintBottom_toTopOf="@+id/minLine"
         app:layout_constraintLeft_toLeftOf="@+id/minLine"
         app:layout_constraintRight_toRightOf="@+id/minLine"

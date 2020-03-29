@@ -12,6 +12,8 @@ import com.speter97.weatherforecast.data.network.WeatherNetworkDataSource
 import com.speter97.weatherforecast.data.network.response.todayEntity.CurrentWeatherData
 import com.speter97.weatherforecast.internal.asDeferred
 import kotlinx.coroutines.*
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import java.io.IOException
 
@@ -46,8 +48,14 @@ class CurrentRepositoryImpl(
     }
 
     private suspend fun initWeatherData() {
-        if (isFetchedCurrentNeeded(ZonedDateTime.now().minusSeconds(11))) {
+        var dateOfLast = currentWeatherDataDao.getCurrentWeatherNonLive()
+        if (dateOfLast == null) {
             fetchCurrentWeather()
+        } else {
+            val i = Instant.ofEpochSecond(dateOfLast.dt.toLong())
+            if (isFetchedCurrentNeeded(i)) {
+                fetchCurrentWeather()
+            }
         }
     }
 
@@ -78,8 +86,9 @@ class CurrentRepositoryImpl(
             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun isFetchedCurrentNeeded(lastFetchTime: ZonedDateTime) : Boolean {
-        val tenSecondsAgo = ZonedDateTime.now().minusSeconds(10)
+    private fun isFetchedCurrentNeeded(lastFetchTime: Instant) : Boolean {
+        val i = Instant.now()
+        val tenSecondsAgo = i.minusSeconds(10)
         return lastFetchTime.isBefore(tenSecondsAgo)
     }
 

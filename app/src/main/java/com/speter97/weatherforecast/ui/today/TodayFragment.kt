@@ -16,6 +16,9 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 import java.lang.String.format
 import java.time.LocalDate
 
@@ -55,20 +58,23 @@ class TodayFragment : ScopedFragment(), KodeinAware {
             val arrayOfColors = context?.resources?.getIntArray(R.array.sunny);
             val gradient = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, arrayOfColors)
             background.background = gradient
-            updateLocation(it.name, it.dt, it.weather[0].main)
-            updateTemperatures(it.main.temp, it.main.tempMin, it.main.tempMax,it.wind.speed)
-            updateOthers(it.main.humidity, it.main.pressure, it.sys.sunrise, it.sys.sunset)
+
+
+            val date = Instant.ofEpochSecond(it.dt.toLong()).toString().substring(0,10)
+            val sunrise = Instant.ofEpochSecond(it.sys.sunrise.toLong()).toString().substring(11,16)
+            val sunset = Instant.ofEpochSecond(it.sys.sunset.toLong()).toString().substring(11,16)
+            updateView(it.name, date, it.weather[0].main, it.main.temp, it.main.tempMin, it.main.tempMax,it.wind.speed, it.main.humidity, it.main.pressure, sunrise,sunset)
 
             if (it.clouds.all < 20) {
                 animation_viewSunny.visibility = View.VISIBLE
                 animation_viewPartly.visibility = View.GONE
                 animation_Cloudy.visibility = View.GONE
             }
+
             else if (it.clouds.all < 80) {
                 animation_Cloudy.visibility = View.GONE
                 animation_viewPartly.visibility = View.VISIBLE
                 animation_viewSunny.visibility = View.GONE
-
             }
             else {
                 animation_viewPartly.visibility = View.GONE
@@ -79,44 +85,19 @@ class TodayFragment : ScopedFragment(), KodeinAware {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateTemperatures(temperature: Double, min: Double, max: Double, wind: Double) {
+    private fun updateView(city: String, date: String, main: String, temperature: Double, min: Double, max: Double, wind: Double, humidity: Int, pressure: Int, sunrise: String, sunset: String ) {
+
+        text_city.text = city
+        text_date.text = date
+        text_main.text = main
         text_temperature.text = "${temperature.toInt()}°"
         text_min.text = "${min.toInt()}°"
         text_max.text = "${max.toInt()}°"
         text_windspeed.text = "Wind: $wind km/h"
-    }
-
-    @SuppressLint("SetTextI18n", "SimpleDateFormat")
-    private fun updateOthers(humidity: Int, pressure: Int, sunrise: Int, sunset: Int) {
-        val sdf = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-
         text_humidity.text = "Humidity: $humidity%"
         text_pressure.text = "Pressure: $pressure hPa"
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var date = LocalDate.parse("2018-12-12")
-            text_sunrise.text = "Sunrise: ${format(java.time.Instant.ofEpochSecond(sunrise.toLong()).toString()).substring(11,16)}"
-            text_sunset.text = "Sunset: ${format(java.time.Instant.ofEpochSecond(sunset.toLong()).toString()).substring(11,16)}"
-        } else {
-            val date1 = java.util.Date((sunrise * 1000).toString())
-            val date2 = java.util.Date((sunset * 1000).toString())
-            text_sunrise.text = "Sunrise: ${sdf.format(date1).substring(11,16)}"
-            text_sunset.text = "Sunset: ${sdf.format(date2).substring(11,16)}"
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun updateLocation(city: String, date: Int, main: String) {
-        val sdf = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            text_date.text = format(java.time.Instant.ofEpochSecond(date.toLong()).toString()).substring(0,10)
-        } else {
-            val date1 = java.util.Date((date * 1000).toString())
-            text_date.text = sdf.format(date1).toString().substring(0,10)
-        }
-        text_city.text = city
-        text_main.text = main
+        text_sunrise.text = "Sunrise: ${sunrise}"
+        text_sunset.text = "Sunset: ${sunset}"
     }
 }
 

@@ -24,6 +24,7 @@ class LifecycleBoundLocationManager(
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
+
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun startLocationUpdates() {
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
