@@ -9,13 +9,13 @@ data class Main(
     val pressure: Int,
     val temp: Double,
     @SerializedName("temp_max")
-    val tempMax: Double,
+    var tempMax: Double,
     @SerializedName("temp_min")
-    val tempMin: Double
+    var tempMin: Double
 )
 
 data class Wind(
-    val speed: Double
+    var speed: Double
 )
 
 data class Clouds(

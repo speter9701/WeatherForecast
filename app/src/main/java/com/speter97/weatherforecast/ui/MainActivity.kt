@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     private val fusedLocationProviderClient: FusedLocationProviderClient by instance()
 
     private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(p0: LocationResult?) {
-            super.onLocationResult(p0)
+        override fun onLocationResult(p1: LocationResult?) {
+            super.onLocationResult(p1)
         }
     }
 

@@ -49,21 +49,24 @@ class ForecastFragment() : ScopedFragment(), KodeinAware {
         background.background = gradient
 
         weatherItems.observe(viewLifecycleOwner, Observer { weatherEntries ->
-            if (weatherEntries == null) return@Observer
+            if (weatherEntries == null || weatherEntries.isEmpty()) return@Observer
+
             val manager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             recyclerViewParent.layoutManager = manager
             recyclerViewParent.setHasFixedSize(true)
+
+            var weatherEntriesList = weatherEntries.toList()
 
             var toReturn: List<FutureWeatherItem> = emptyList()
             var i = 0
             var min = +100.0;
             var max = -100.0;
-            var bestBefore = weatherEntries[0]
+            var bestBeforeId = 0
             var bestBeforeMin = weatherEntries[0].main.tempMin
             var bestBeforeWind = weatherEntries[0].wind.speed
             weatherEntries.forEach {
-                if (bestBefore.main.tempMax < it.main.tempMax) {
-                    bestBefore = it
+                if (weatherEntriesList[bestBeforeId].main.tempMax < it.main.tempMax) {
+                    bestBeforeId = i
                 }
                 if (bestBeforeMin > it.main.tempMin) {
                     bestBeforeMin = it.main.tempMax
@@ -71,19 +74,20 @@ class ForecastFragment() : ScopedFragment(), KodeinAware {
                 if (bestBeforeWind < it.wind.speed) {
                     bestBeforeWind = it.wind.speed
                 }
+                if(it.main.tempMax > max) {
+                    max = it.main.tempMax
+                }
+                if(it.main.tempMin < min) {
+                    min = it.main.tempMin
+                }
+                if (i % 8 == 7) {
+                    weatherEntriesList[bestBeforeId].main.tempMin = bestBeforeMin
+                    weatherEntriesList[bestBeforeId].wind.speed = bestBeforeWind
+                    toReturn += weatherEntriesList[bestBeforeId]
 
-                if (i % 8 == 0) {
-                    var temp = it
-                    // temp.main.tempMin = bestBeforeMin
-                    toReturn += it
-                    
-                    if(it.main.tempMax > max) {
-                        max = it.main.tempMax
-                    }
-                    if(it.main.tempMin < min) {
-                        min = it.main.tempMin
-                    }
-                    bestBefore = it
+                    bestBeforeMin = 100.0
+                    bestBeforeWind = -1.0
+                    bestBeforeId = i+1
                 }
                 i++
             }
@@ -91,7 +95,7 @@ class ForecastFragment() : ScopedFragment(), KodeinAware {
 
             val displayMetrics: DisplayMetrics = context!!.getResources().getDisplayMetrics()
             val dpHeight = displayMetrics.heightPixels / displayMetrics.density
-            val myAdapter = MyAdapter(toReturn.toMutableList(), min, max, dpHeight*0.4)
+            val myAdapter = MyAdapter(toReturn.toMutableList(), min, max, dpHeight*1.2)
             recyclerViewParent.adapter = myAdapter
         })
     }

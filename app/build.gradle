@@ -94,8 +94,6 @@ dependencies {
 
     // PICTURE
     implementation 'com.airbnb.android:lottie:3.4.0'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // ROOM DEBUG
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'

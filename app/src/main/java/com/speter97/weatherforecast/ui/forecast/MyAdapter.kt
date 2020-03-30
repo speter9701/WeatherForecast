@@ -26,9 +26,9 @@ class MyAdapter(items: MutableList<FutureWeatherItem>, minTemp: Double, maxTemp:
         val date: TextView = view.textview_date
         val main: TextView = view.textview_main
         val sun: LottieAnimationView = view.animation_sun
-        val max: TextView = view.textview_max
-        val min: TextView = view.textview_min
-        val wind: LottieAnimationView = view.animation_wind
+        var max: TextView = view.textview_max
+        var min: TextView = view.textview_min
+        var wind: LottieAnimationView = view.animation_wind
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
