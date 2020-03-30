@@ -1,6 +1,8 @@
 package com.speter97.weatherforecast.ui.forecast
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,22 +44,54 @@ class ForecastFragment() : ScopedFragment(), KodeinAware {
     private fun bindUI() = launch(Dispatchers.Main) {
         val weatherItems = viewModel.weatherItems.await()
 
+        val arrayOfColors = context?.resources?.getIntArray(R.array.forecasty);
+        val gradient = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, arrayOfColors)
+        background.background = gradient
+
         weatherItems.observe(viewLifecycleOwner, Observer { weatherEntries ->
             if (weatherEntries == null) return@Observer
-            val manager = LinearLayoutManager(activity)
+            val manager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             recyclerViewParent.layoutManager = manager
             recyclerViewParent.setHasFixedSize(true)
 
             var toReturn: List<FutureWeatherItem> = emptyList()
             var i = 0
-
+            var min = +100.0;
+            var max = -100.0;
+            var bestBefore = weatherEntries[0]
+            var bestBeforeMin = weatherEntries[0].main.tempMin
+            var bestBeforeWind = weatherEntries[0].wind.speed
             weatherEntries.forEach {
+                if (bestBefore.main.tempMax < it.main.tempMax) {
+                    bestBefore = it
+                }
+                if (bestBeforeMin > it.main.tempMin) {
+                    bestBeforeMin = it.main.tempMax
+                }
+                if (bestBeforeWind < it.wind.speed) {
+                    bestBeforeWind = it.wind.speed
+                }
+
                 if (i % 8 == 0) {
+                    var temp = it
+                    // temp.main.tempMin = bestBeforeMin
                     toReturn += it
+                    
+                    if(it.main.tempMax > max) {
+                        max = it.main.tempMax
+                    }
+                    if(it.main.tempMin < min) {
+                        min = it.main.tempMin
+                    }
+                    bestBefore = it
                 }
                 i++
             }
-            val myAdapter = MyAdapter(toReturn.toMutableList())
+
+
+            val displayMetrics: DisplayMetrics = context!!.getResources().getDisplayMetrics()
+            val dpHeight = displayMetrics.heightPixels / displayMetrics.density
+            val myAdapter = MyAdapter(toReturn.toMutableList(), min, max, dpHeight*0.4)
             recyclerViewParent.adapter = myAdapter
         })
     }

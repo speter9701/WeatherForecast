@@ -12,8 +12,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5702604-8a01-4c2b-a3fc-3ec0fc82dc17" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/MyAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/app_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/assets/wcloudy.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/assets/wpartlycloudy.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/assets/wsunny.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/assets/wwind.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/gradient.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/wwind.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" afterDir="false" />
@@ -25,57 +29,18 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ForecastApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ForecastApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/CurrentDatabaseDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/DatabaseDao.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/FutureDatabaseDao.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/WeatherDatabase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/DatabaseObj.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/ConnectivityInterceptor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/ConnectivityInterceptor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/WeatherApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/WeatherApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/WeatherNetworkDataSource.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/WeatherNetworkDataSource.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/response/CommonData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/data/CommonData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/response/Converters.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/Converters.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/response/CurrentWeatherData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/data/CurrentWeatherData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/network/response/FutureWeatherData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/data/FutureWeatherData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/repository/CurrentRepository.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/repository/CurrentRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/data/db/data/WeatherRepositoryImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/internal/DefferedTransformer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/coroutineHelpers/DeferedTransformer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/internal/Delegates.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/coroutineHelpers/Delegates.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/internal/ScopedFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/coroutineHelpers/ScopedFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/ForecastFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/ForecastFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/ForecastViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/ForecastViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/ForecastWeatherViewModelFactory.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/location/LocationFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/location/LocationViewModel.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/today/CurrentWeatherViewModelFactory.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/today/LifecycleBoundLocationManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/today/LifecycleBoundLocationManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/MyAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/forecast/MyAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/today/TodayFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/today/TodayFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/today/TodayViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/speter97/weatherforecast/ui/today/TodayViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_home_black_24dp.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_notifications_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_forecast.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_forecast.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_location.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/bottom_nav_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/bottom_nav_menu.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_forecast.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_forecast.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/arrays.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/arrays.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -100,11 +65,11 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Interface" />
-        <option value="resourceFile" />
         <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
         <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -118,10 +83,10 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_R" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-03-29T19:52:38.147Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-03-29T23:23:52.723Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/assets" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -145,14 +110,15 @@
       <recent name="com.speter97.weatherforecast.data.db" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\assets" />
       <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\res\mipmap-xxhdpi" />
       <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\res\raw" />
       <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\res\drawable" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\res\raw" />
       <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\java\com\speter97\weatherforecast\data\db\data" />
       <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\java\com\speter97\weatherforecast\data\network\response" />
-      <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\res\raw" />
       <recent name="C:\Users\sepap\AndroidStudioProjects\WeatherForecast\app\src\main\java\com\speter97\weatherforecast\data\network" />
     </key>
   </component>

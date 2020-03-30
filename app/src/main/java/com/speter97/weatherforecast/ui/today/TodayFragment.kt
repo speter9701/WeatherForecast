@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -60,20 +61,14 @@ class TodayFragment() : ScopedFragment(), KodeinAware {
             updateView(it.name, date, it.weather[0].main, it.main.temp, it.main.tempMin, it.main.tempMax,it.wind.speed, it.main.humidity, it.main.pressure, sunrise,sunset)
 
             if (it.clouds.all < 20) {
-                animation_viewSunny.visibility = View.VISIBLE
-                animation_viewPartly.visibility = View.GONE
-                animation_Cloudy.visibility = View.GONE
+                animation_sun.setAnimation("wsunny.json")
             }
 
             else if (it.clouds.all < 80) {
-                animation_Cloudy.visibility = View.GONE
-                animation_viewPartly.visibility = View.VISIBLE
-                animation_viewSunny.visibility = View.GONE
+                animation_sun.setAnimation("wpartlycloudy.json")
             }
             else {
-                animation_viewPartly.visibility = View.GONE
-                animation_viewSunny.visibility = View.GONE
-                animation_Cloudy.visibility = View.VISIBLE
+                animation_sun.setAnimation("wcloudy.json")
             }
         })
     }

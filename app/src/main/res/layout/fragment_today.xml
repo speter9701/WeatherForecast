@@ -29,7 +29,7 @@
         app:layout_constraintGuide_percent="0.6" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_viewSunny"
+        android:id="@+id/animation_sun"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="6dp"
@@ -38,28 +38,6 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/wsunny" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_viewPartly"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="6dp"
-        app:layout_constraintBottom_toTopOf="@id/TemperatureSpace"
-        app:layout_constraintStart_toStartOf="@id/TemperatureSpace"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/wpartlycloudy" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_Cloudy"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="6dp"
-        app:layout_constraintBottom_toTopOf="@id/TemperatureSpace"
-        app:layout_constraintStart_toStartOf="@id/TemperatureSpace"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/wcloudy" />
 
     <androidx.drawerlayout.widget.DrawerLayout
     android:id="@+id/TemperatureSpace"
