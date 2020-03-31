@@ -2,7 +2,7 @@ package com.speter97.weatherforecast.ui.forecast
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.speter97.weatherforecast.data.db.data.WeatherRepository
+import com.speter97.weatherforecast.data.db.WeatherRepository
 import com.speter97.weatherforecast.coroutineHelpers.lazyDeferred
 
 class ForecastViewModel(private val currentRepository: WeatherRepository) : ViewModel() {

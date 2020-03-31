@@ -28,9 +28,8 @@ class WeatherNetworkDataSourceImpl(private val weatherApiService: WeatherApiServ
     override val downloadedFutureWeather: LiveData<FutureWeatherData>
         get() = _downloadedFutureWeather
 
-    // TODO ( "WTF??")
     override suspend fun fetchCurrentWeather(location: String) {
-        var latlng = location.split(',')
+        val latlng = location.split(',')
         try {
             val fetchedCurrentWeather = weatherApiService.getCurrentWeatherData(latlng[0],latlng[1])
             _downloadedCurrentWeather.postValue(fetchedCurrentWeather)
@@ -40,7 +39,7 @@ class WeatherNetworkDataSourceImpl(private val weatherApiService: WeatherApiServ
     }
 
     override suspend fun fetchFutureWeather(location: String) {
-        var latlng = location.split(',')
+        val latlng = location.split(',')
         try {
             val fetchedFutureWeather = weatherApiService.getFutureWeatherData(latlng[0],latlng[1])
             _downloadedFutureWeather.postValue(fetchedFutureWeather)

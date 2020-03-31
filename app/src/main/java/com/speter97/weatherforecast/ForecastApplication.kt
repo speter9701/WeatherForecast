@@ -5,8 +5,8 @@ import android.content.Context
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.speter97.weatherforecast.data.db.DatabaseObj
-import com.speter97.weatherforecast.data.db.data.WeatherRepository
-import com.speter97.weatherforecast.data.db.data.WeatherRepositoryImpl
+import com.speter97.weatherforecast.data.db.WeatherRepository
+import com.speter97.weatherforecast.data.db.WeatherRepositoryImpl
 import com.speter97.weatherforecast.data.network.ConnectivityInterceptor
 import com.speter97.weatherforecast.data.network.WeatherApiService
 import com.speter97.weatherforecast.data.network.WeatherNetworkDataSource
@@ -21,6 +21,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
+@Suppress("unused")
 class ForecastApplication : Application(), KodeinAware {
     override val kodein = Kodein.lazy {
         // get context, services etc from system
@@ -34,7 +35,8 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { WeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance())  }
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
-        bind<WeatherRepository>() with singleton { WeatherRepositoryImpl(instance(), instance(), instance(), instance(), instance()) }
+        bind<WeatherRepository>() with singleton { WeatherRepositoryImpl(
+                instance(), instance(), instance(), instance(), instance()) }
         bind() from provider { CurrentWeatherViewModelFactory(instance()) }
         bind() from provider { ForecastWeatherViewModelFactory(instance()) }
     }

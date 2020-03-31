@@ -1,6 +1,5 @@
 package com.speter97.weatherforecast.ui.forecast
 
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +17,8 @@ import org.threeten.bp.ZonedDateTime
 
 class MyAdapter(items: MutableList<FutureWeatherItem>, minTemp: Double, maxTemp: Double, maxHeight: Double) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     private val mItems: MutableList<FutureWeatherItem> = items
-    private val maxT = maxTemp
     private val minT = minTemp
-    val multiplier = maxHeight / (maxTemp-minTemp)
+    private val multiplier = maxHeight / (maxTemp-minTemp)
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val date: TextView = view.textview_date
@@ -45,18 +43,20 @@ class MyAdapter(items: MutableList<FutureWeatherItem>, minTemp: Double, maxTemp:
         val instant = Instant.ofEpochSecond(item.dt.toLong())
         val zdt: ZonedDateTime = ZonedDateTime.ofInstant(instant, ZoneOffset.UTC)
         val dow: DayOfWeek = DayOfWeek.from(zdt)
-        holder.date.text = "$dow"
+
+        val max = item.main.tempMax.toInt().toString() + "°"
+        val min = item.main.tempMin.toInt().toString() + "°"
+        holder.date.text = dow.toString()
         holder.main.text = item.weather[0].main
-        holder.max.text = "${item.main.tempMax.toInt()}°"
-        holder.min.text = "${item.main.tempMin.toInt()}°"
+        holder.max.text = max
+        holder.min.text = min
         holder.wind.speed = (item.wind.speed / 10).toFloat()
 
-        if (item.clouds.all < 20)
-            holder.sun.setAnimation("wsunny.json")
-        else if (item.clouds.all < 80)
-            holder.sun.setAnimation("wpartlycloudy.json")
-        else
-            holder.sun.setAnimation("wcloudy.json")
+        when {
+            item.clouds.all < 20 -> holder.sun.setAnimation("wsunny.json")
+            item.clouds.all < 80 -> holder.sun.setAnimation("wpartlycloudy.json")
+            else -> holder.sun.setAnimation("wcloudy.json")
+        }
         holder.min.setPadding(0,0,0,(multiplier*(item.main.tempMin-minT)).toInt())
         holder.max.setPadding(0,0,0,(multiplier*(item.main.tempMax-minT)).toInt())
 

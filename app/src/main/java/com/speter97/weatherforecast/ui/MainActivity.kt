@@ -14,7 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.speter97.weatherforecast.R
-import com.speter97.weatherforecast.ui.today.LifecycleBoundLocationManager
+import com.speter97.weatherforecast.ui.today.LocationLifecycleManager
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
@@ -26,8 +26,9 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val fusedLocationProviderClient: FusedLocationProviderClient by instance()
 
+    @Suppress("RedundantOverride")
     private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(p1: LocationResult?) {
+         override fun onLocationResult(p1: LocationResult?) {
             super.onLocationResult(p1)
         }
     }
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun bindLocationManager() {
-        LifecycleBoundLocationManager(
+        LocationLifecycleManager(
             this,
             fusedLocationProviderClient, locationCallback
         )

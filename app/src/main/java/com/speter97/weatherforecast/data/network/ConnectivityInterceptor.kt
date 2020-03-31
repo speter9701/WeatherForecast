@@ -51,4 +51,4 @@ class ConnectivityInterceptor(context: Context) : Interceptor {
     }
 }
 
-// Stackoverflow: https://stackoverflow.com/questions/57277759/getactivenetworkinfo-is-deprecated-in-api-29
+// StackOverflow: https://stackoverflow.com/questions/57277759/getactivenetworkinfo-is-deprecated-in-api-29

@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-// ScopedFragments: Coroutinenál nincs nullpointer exception: ha a coroutine később végez mind a Fragment elpusztul
+// Fixing the nullPointer exception when the coroutine finished after the fragment destruction (nowwhere to return)
 abstract class ScopedFragment : Fragment(), CoroutineScope {
     private lateinit var job: Job
 

@@ -2,5 +2,7 @@
     <string name="app_name">Weather Forecast</string>
     <string name="title_today">Today</string>
     <string name="title_forecast">Forecast</string>
-    <string name="title_location">Location</string>
+    <string name="space">" "</string>
+    <string name="forecastDays">5 day forecast</string>
+    <string name="details">Details</string>
 </resources>
