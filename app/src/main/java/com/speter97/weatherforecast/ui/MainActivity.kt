@@ -48,6 +48,12 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         navView.setupWithNavController(navController)
         //endregion navigation
 
+        val locationRequest = LocationRequest().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
         requestLocationPermission()
         if (hasLocationPermission()) {
             bindLocationManager()
@@ -86,7 +92,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 bindLocationManager()
             else
-                Toast.makeText(this, "Please, grant access for location!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Granting access for location!", Toast.LENGTH_LONG).show()
         }
     }
 }

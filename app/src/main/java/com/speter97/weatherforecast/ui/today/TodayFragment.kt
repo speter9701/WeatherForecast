@@ -17,13 +17,10 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.threeten.bp.Instant
 
-// viewmodelfactory aware
 class TodayFragment : ScopedFragment(), KodeinAware {
 
-    // viewmodelfactory
     override val kodein by closestKodein()
     private val viewModelFactory : CurrentWeatherViewModelFactory by instance()
-
 
     private lateinit var viewModel: TodayViewModel
 
